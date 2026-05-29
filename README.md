@@ -1,45 +1,35 @@
 # Tillu News & Weather Service
 
-A centralized, resilient service for fetching weather and news data with automatic fallback between multiple free API providers.
+A centralized, resilient, and AI-ready service providing weather and news data for the Tillu ecosystem. It features automatic provider fallback to ensure high availability even when primary APIs are down or rate-limited.
 
-## Configuration
+## Features
+- **Resilient**: Multi-source fallback logic for both Weather and News data.
+- **Lightweight**: Optimized for Vercel Serverless Functions.
+- **Configurable**: Easily add or remove API providers via simple JS handlers.
 
-Copy `.env.example` to `.env` and provide your API keys:
+## Supported Providers
+- **Weather**: OpenWeatherMap, WeatherAPI
+- **News**: NewsAPI, GNews
 
-```env
-OPENWEATHER_KEY=your_key_here
-WEATHERAPI_KEY=your_key_here
-NEWSAPI_KEY=your_key_here
-GNEWS_KEY=your_key_here
-```
+## Deployment
+This project is pre-configured for **Vercel**.
 
-## API Endpoints
+1. Click the "Import Project" button in your Vercel dashboard.
+2. Select this repository (`Heoster/tillu-news-weather`).
+3. Configure the following **Environment Variables**:
+   - `OPENWEATHER_KEY`
+   - `WEATHERAPI_KEY`
+   - `NEWSAPI_KEY`
+   - `GNEWS_KEY`
+4. Click **Deploy**.
 
-### 1. Weather
+## API Usage
+
+### Weather
 `GET /api/weather?city={city_name}`
 
-- **Description**: Fetches current weather for the specified city.
-- **Fallback Logic**: 
-  1. OpenWeatherMap
-  2. WeatherAPI
+### News
+`GET /api/news?query={topic}` (Defaults to `top-headlines`)
 
-### 2. News
-`GET /api/news?query={topic}`
-
-- **Description**: Searches for news articles based on the query. If no query is provided, it defaults to `top-headlines`.
-- **Fallback Logic**:
-  1. NewsAPI
-  2. GNews
-
-## Response Format
-
-All endpoints return a JSON object indicating the successful provider and the requested data:
-
-```json
-{
-  "source": "OpenWeather",
-  "data": { ... }
-}
-```
-
-If all providers fail, a `503 Service Unavailable` error is returned.
+## Contributing
+Contributions are welcome! Please ensure any new API providers follow the existing handler pattern to maintain the fallback loop.
